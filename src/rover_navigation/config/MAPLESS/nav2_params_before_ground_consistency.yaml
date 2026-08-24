@@ -1,0 +1,488 @@
+amcl:  # AMCL localization node configuration.
+  ros__parameters:  # ROS 2 parameter block for this node.
+    # Clock source, particle filter noise, TF frames, laser model, and initial pose for AMCL localization.
+    use_sim_time: false  # Uses Gazebo simulation clock when true.
+    alpha1: 0.2  # AMCL odometry rotation-from-rotation noise coefficient.
+    alpha2: 0.2  # AMCL odometry rotation-from-translation noise coefficient.
+    alpha3: 0.2  # AMCL odometry translation-from-translation noise coefficient.
+    alpha4: 0.2  # AMCL odometry translation-from-rotation noise coefficient.
+    alpha5: 0.2  # AMCL strafe noise coefficient for applicable motion models.
+    base_frame_id: "base_link"  # Robot base frame used by AMCL.
+    beam_skip_distance: 0.5  # Maximum distance for beam-skip comparison.
+    beam_skip_error_threshold: 0.9  # Error ratio that disables beam skipping when exceeded.
+    beam_skip_threshold: 0.3  # Beam disagreement ratio required to skip beams.
+    do_beamskip: false  # Enables AMCL beam skipping for noisy scans.
+    global_frame_id: "map"  # Global localization frame, usually map.
+    lambda_short: 0.1  # Exponential decay parameter for unexpected short laser readings.
+    laser_likelihood_max_dist: 2.0  # Maximum obstacle distance used by likelihood-field model.
+    laser_max_range: 30.0  # Maximum laser range accepted by AMCL.
+    laser_min_range: -1.0  # Minimum laser range accepted by AMCL.
+    laser_model_type: "likelihood_field"  # AMCL laser sensor model type.
+    max_beams: 60  # Maximum scan beams sampled by AMCL per update.
+    max_particles: 2000  # Upper limit for AMCL particle count.
+    min_particles: 500  # Lower limit for AMCL particle count.
+    odom_frame_id: "odom"  # Odometry frame used by AMCL.
+    pf_err: 0.05  # Particle filter population error bound.
+    pf_z: 0.99  # Particle filter confidence value.
+    recovery_alpha_fast: 0.0  # Fast recovery averaging rate for kidnapped-robot recovery.
+    recovery_alpha_slow: 0.0  # Slow recovery averaging rate for kidnapped-robot recovery.
+    resample_interval: 1  # Number of AMCL updates between particle resampling.
+    robot_model_type: "nav2_amcl::DifferentialMotionModel"  # AMCL motion model plugin class.
+    save_pose_rate: 0.5  # Rate at which AMCL stores last pose.
+    sigma_hit: 0.2  # Standard deviation for expected laser hits.
+    tf_broadcast: true  # Publishes map-to-odom transform when true.
+    transform_tolerance: 1.0  # Allowed transform timestamp tolerance in seconds.
+    update_min_a: 0.10 # Minimum angular motion before AMCL update.
+    update_min_d: 0.10  # Minimum linear motion before AMCL update.
+    z_hit: 0.5  # Sensor model weight for expected obstacle hits.
+    z_max: 0.05  # Sensor model weight for max-range readings.
+    z_rand: 0.5  # Sensor model weight for random measurements.
+    z_short: 0.05  # Sensor model weight for unexpected short readings.
+    scan_topic: /scan  # LaserScan topic used by SLAM or localization.
+    set_initial_pose: false  # Initializes localization from configured pose when true.
+    initial_pose.x: 0.0  # Initial robot x position in map frame.
+    initial_pose.y: 0.0  # Initial robot y position in map frame.
+    initial_pose.z: 0.0  # Initial robot z position in map frame.
+    initial_pose.yaw: 0.0  # Initial robot yaw heading in map frame.
+
+bt_navigator:  # Nav2 behavior-tree navigator configuration.
+  ros__parameters:  # ROS 2 parameter block for this node.
+    # Behavior Tree navigator frames, odometry input, timing, and available BT node plugins.
+    use_sim_time: false  # Uses Gazebo simulation clock when true.
+    global_frame: map  # Global planning or behavior frame.
+    robot_base_frame: base_link  # Robot base frame used by Nav2.
+    odom_topic: /odometry/filtered  # Odometry topic consumed by Nav2.
+    bt_loop_duration: 10  # Behavior tree tick period in milliseconds.
+    default_server_timeout: 20  # Default action/service timeout in seconds.
+    wait_for_service_timeout: 1000  # Service wait timeout in milliseconds.
+    # 'default_nav_through_poses_bt_xml' and 'default_nav_to_pose_bt_xml' are use defaults:
+    # nav2_bt_navigator/navigate_to_pose_w_replanning_and_recovery.xml
+    # nav2_bt_navigator/navigate_through_poses_w_replanning_and_recovery.xml
+    # They can be set here or via a RewrittenYaml remap from a parent launch file to Nav2.
+    plugin_lib_names:  # Behavior-tree plugin libraries loaded by Nav2.
+      - nav2_compute_path_to_pose_action_bt_node
+      - nav2_compute_path_through_poses_action_bt_node
+      - nav2_smooth_path_action_bt_node
+      - nav2_follow_path_action_bt_node
+      - nav2_spin_action_bt_node
+      - nav2_wait_action_bt_node
+      - nav2_assisted_teleop_action_bt_node
+      - nav2_back_up_action_bt_node
+      - nav2_drive_on_heading_bt_node
+      - nav2_clear_costmap_service_bt_node
+      - nav2_is_stuck_condition_bt_node
+      - nav2_goal_reached_condition_bt_node
+      - nav2_goal_updated_condition_bt_node
+      - nav2_globally_updated_goal_condition_bt_node
+      - nav2_is_path_valid_condition_bt_node
+      - nav2_initial_pose_received_condition_bt_node
+      - nav2_reinitialize_global_localization_service_bt_node
+      - nav2_rate_controller_bt_node
+      - nav2_distance_controller_bt_node
+      - nav2_speed_controller_bt_node
+      - nav2_truncate_path_action_bt_node
+      - nav2_truncate_path_local_action_bt_node
+      - nav2_goal_updater_node_bt_node
+      - nav2_recovery_node_bt_node
+      - nav2_pipeline_sequence_bt_node
+      - nav2_round_robin_node_bt_node
+      - nav2_transform_available_condition_bt_node
+      - nav2_time_expired_condition_bt_node
+      - nav2_path_expiring_timer_condition
+      - nav2_distance_traveled_condition_bt_node
+      - nav2_single_trigger_bt_node
+      - nav2_goal_updated_controller_bt_node
+      - nav2_is_battery_low_condition_bt_node
+      - nav2_navigate_through_poses_action_bt_node
+      - nav2_navigate_to_pose_action_bt_node
+      - nav2_remove_passed_goals_action_bt_node
+      - nav2_planner_selector_bt_node
+      - nav2_controller_selector_bt_node
+      - nav2_goal_checker_selector_bt_node
+      - nav2_controller_cancel_bt_node
+      - nav2_path_longer_on_approach_bt_node
+      - nav2_wait_cancel_bt_node
+      - nav2_spin_cancel_bt_node
+      - nav2_back_up_cancel_bt_node
+      - nav2_assisted_teleop_cancel_bt_node
+      - nav2_drive_on_heading_cancel_bt_node
+      - nav2_is_battery_charging_condition_bt_node
+
+bt_navigator_navigate_through_poses_rclcpp_node:  # Navigate-through-poses BT action helper node.
+  ros__parameters:  # ROS 2 parameter block for this node.
+    # Use simulation time for the NavigateThroughPoses action helper node.
+    use_sim_time: false  # Uses Gazebo simulation clock when true.
+
+bt_navigator_navigate_to_pose_rclcpp_node:  # Navigate-to-pose BT action helper node.
+  ros__parameters:  # ROS 2 parameter block for this node.
+    # Use simulation time for the NavigateToPose action helper node.
+    use_sim_time: false  # Uses Gazebo simulation clock when true.
+
+controller_server:  # Nav2 controller server configuration.
+  ros__parameters:  # ROS 2 parameter block for this node.
+    # Controller loop rate, velocity deadbands, failure tolerance, and selected controller/checker plugins.
+    use_sim_time: false  # Uses Gazebo simulation clock when true.
+    controller_frequency: 20.0  # Controller loop frequency in Hz.
+    min_x_velocity_threshold: 0.001  # Small x velocities below this are treated as zero.
+    min_y_velocity_threshold: 0.001 # Small y velocities below this are treated as zero.
+    min_theta_velocity_threshold: 0.001  # Small angular velocities below this are treated as zero.
+    failure_tolerance: 0.3  # Allowed controller failure time before navigation aborts.
+    progress_checker_plugin: "progress_checker"  # Selected progress checker plugin ID.
+    goal_checker_plugins: ["general_goal_checker"]  # Goal checker plugin IDs; precise checker is available as an optional alternative.
+    controller_plugins: ["FollowPath"]  # Controller plugin IDs loaded by controller server.
+
+    # Progress checker parameters
+    progress_checker:  # Progress checker plugin parameter namespace.
+      # Count either translation or rotation as progress. This prevents slow
+      # in-place turns toward an intermediate pose from being treated as stuck.
+      plugin: "nav2_controller::PoseProgressChecker"  # Plugin class name loaded for this component.
+      required_movement_radius: 0.05  # Minimum movement radius required to show progress.
+      required_movement_angle: 0.10  # Minimum rotation in radians required to show progress.
+      movement_time_allowance: 30.0  # Time allowed to show translation or rotation progress.
+    # Goal checker parameters
+    #precise_goal_checker:
+    #  plugin: "nav2_controller::SimpleGoalChecker"
+    #  xy_goal_tolerance: 0.25
+    #  yaw_goal_tolerance: 0.25
+    #  stateful: True
+
+    general_goal_checker:  # General goal checker plugin parameter namespace.
+      # Goal is reached when pose error is inside these xy/yaw tolerances.
+      stateful: True  # Keeps checker/planner state between control cycles.
+      plugin: "nav2_controller::SimpleGoalChecker"  # Plugin class name loaded for this component.
+      xy_goal_tolerance: 0.20  # Allowed final xy position error in meters.
+      yaw_goal_tolerance: 0.50  # Allowed final yaw error in radians.
+
+    # DWB parameters
+    FollowPath:  # DWB local planner plugin namespace.
+      # DWB local planner velocity limits, acceleration limits, sampling density, and trajectory critics.
+      plugin: "dwb_core::DWBLocalPlanner"  # Plugin class name loaded for this component.
+      debug_trajectory_details: true  # Publishes detailed DWB trajectory debug information.
+      min_vel_x: 0.0  # Minimum sampled forward velocity.
+      min_vel_y: 0.0  # Minimum sampled lateral velocity.
+      max_vel_x: 0.6  # Maximum forward velocity command.
+      max_vel_y: 0.0  # Maximum lateral velocity command.
+      max_vel_theta: 0.25 # Maximum angular velocity command.
+      min_speed_xy: 0.0  # Minimum translational speed magnitude.
+      max_speed_xy: 0.50  # Maximum translational speed magnitude.
+      min_speed_theta: 0.0  # Minimum angular speed magnitude.
+      # Add high threshold velocity for turtlebot 3 issue.
+      # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
+      acc_lim_x: 0.6  # Maximum x acceleration.
+      acc_lim_y: 0.0  # Maximum y acceleration.
+      acc_lim_theta: 0.4 # Maximum angular acceleration.
+      decel_lim_x: -0.6  # Maximum x deceleration, usually negative.
+      decel_lim_y: 0.0  # Maximum y deceleration, usually negative.
+      decel_lim_theta: -0.4  # Maximum angular deceleration, usually negative.
+      vx_samples: 20  # Number of x velocity samples evaluated by DWB.
+      vy_samples: 5  # Number of y velocity samples evaluated by DWB.
+      vtheta_samples: 20  # Number of angular velocity samples evaluated by DWB.
+      sim_time: 1.7 # Forward simulation time for trajectory rollout.
+      linear_granularity: 0.05  # Linear step size for trajectory collision checking.
+      angular_granularity: 0.025  # Angular step size for trajectory collision checking.
+      transform_tolerance: 0.2  # Allowed transform timestamp tolerance in seconds.
+      xy_goal_tolerance: 0.25  # Allowed final xy position error in meters.
+      trans_stopped_velocity: 0.05  # Velocity below which robot is considered translationally stopped.
+      short_circuit_trajectory_evaluation: True  # Stops critic evaluation once a trajectory is already invalid/worse.
+      stateful: True  # Keeps checker/planner state between control cycles.
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]  # Ordered list of DWB trajectory critics.
+      BaseObstacle.scale: 0.02  # Weight for obstacle-cost critic.
+      PathAlign.scale: 8.0  # Weight for aligning robot heading with path.
+      PathAlign.forward_point_distance: 0.20  # Forward point distance used by path-alignment critic.
+      GoalAlign.scale: 6.0  # Weight for aligning robot heading with goal direction.
+      GoalAlign.forward_point_distance: 0.20  # Forward point distance used by goal-alignment critic.
+      PathDist.scale: 24.0  # Weight for staying close to global path.
+      GoalDist.scale: 24.0  # Weight for reducing distance to goal.
+      RotateToGoal.scale: 5.0  # Weight for final rotate-to-goal behavior.
+      RotateToGoal.slowing_factor: 8.0  # Slowing factor while rotating to goal heading.
+      RotateToGoal.lookahead_time: -1.0  # Lookahead time for rotate-to-goal critic; negative disables lookahead.
+local_costmap:
+  local_costmap:
+    ros__parameters:
+      use_sim_time: false
+
+      update_frequency: 5.0
+      publish_frequency: 2.0
+
+      global_frame: odom
+      robot_base_frame: base_link
+
+      rolling_window: true
+      width: 3
+      height: 3
+      resolution: 0.05
+
+      # min_obstacle_height: 0.0
+      # max_obstacle_height: 0.
+
+      footprint: "[[0.20, 0.19], [0.20, -0.19], [-0.20, -0.19], [-0.20, 0.19]]"
+      footprint_padding: 0.04
+
+      plugins:
+        - obstacle_layer
+        - denoise_layer
+        - inflation_layer
+
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: true
+        observation_sources: scan
+
+        scan:
+          topic: /scan
+          data_type: "LaserScan"
+          
+          clearing: true
+          marking: true
+          raytrace_max_range: 3.0
+          raytrace_min_range: 0.10
+          obstacle_max_range: 2.5
+          obstacle_min_range: 0.30
+
+      denoise_layer:
+        plugin: "nav2_costmap_2d::DenoiseLayer"
+        enabled: true
+        minimal_group_size: 2
+        group_connectivity_type: 8
+        
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        inflation_radius: 0.23
+        cost_scaling_factor: 10.0
+
+      always_send_full_costmap: true
+
+global_costmap:
+  global_costmap:
+    ros__parameters:
+      use_sim_time: false
+      update_frequency: 2.0
+      publish_frequency: 1.0
+
+      global_frame: map
+      robot_base_frame: base_link
+
+      footprint: "[[0.20, 0.19], [0.20, -0.19], [-0.20, -0.19], [-0.20, 0.19]]"
+      footprint_padding: 0.04
+
+      resolution: 0.05
+      track_unknown_space: true
+
+      plugins:
+        - static_layer
+        - obstacle_layer
+        - denoise_layer
+        - inflation_layer
+
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        map_subscribe_transient_local: true
+
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: true
+        observation_sources: scan
+
+        scan:
+          topic: /scan
+          data_type: "LaserScan"
+          marking: true
+          clearing: true
+          obstacle_min_range: 0.10
+          obstacle_max_range: 5.0
+          raytrace_min_range: 0.10
+          raytrace_max_range: 6.0
+
+      denoise_layer:
+        plugin: "nav2_costmap_2d::DenoiseLayer"
+        enabled: true
+        minimal_group_size: 2
+        group_connectivity_type: 8
+        
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        inflation_radius: 0.40
+        cost_scaling_factor: 5.0
+
+      always_send_full_costmap: true
+
+
+map_server:  # Map server node configuration.
+  ros__parameters:  # ROS 2 parameter block for this node.
+    # Map server clock source and map yaml path; launch can override yaml_filename.
+    use_sim_time: false  # Uses Gazebo simulation clock when true.
+    # Overridden in launch by the "map" launch configuration or provided default value.
+    # To use in yaml, remove the default "map" value in the tb3_simulation_launch.py file & provide full path to map below.
+    yaml_filename: ""  # Occupancy grid YAML file loaded by map_server.
+
+map_saver:  # Map saver node configuration.
+  ros__parameters:  # ROS 2 parameter block for this node.
+    # Map saver clock source, save timeout, occupancy thresholds, and transient map subscription.
+    use_sim_time: false  # Uses Gazebo simulation clock when true.
+    save_map_timeout: 5.0  # Maximum time allowed for map saving in seconds.
+    free_thresh_default: 0.25  # Default free-space threshold for saved maps.
+    occupied_thresh_default: 0.65  # Default occupied threshold for saved maps.
+    map_subscribe_transient_local: True  # Uses transient local QoS for latched map data.
+
+planner_server:
+  ros__parameters:
+    use_sim_time: false
+    expected_planner_frequency: 5.0
+    planner_plugins: ["GridBased"]
+
+    GridBased:
+      plugin: "nav2_navfn_planner/NavfnPlanner"
+      tolerance: 0.75
+      use_astar: false  
+      allow_unknown: true
+
+    # GridBased:  # NavFn grid planner plugin namespace.
+    #   # NavFn planner options: goal tolerance, Dijkstra/A* selection, and unknown-space planning.
+    #   plugin: "nav2_navfn_planner/NavfnPlanner"  # Plugin class name loaded for this component.
+    #   tolerance: 0.5  # Allowed goal tolerance for planning in meters.
+    #   use_astar: true  # Uses A* instead of Dijkstra when true.
+    
+    # GridBased: # Theta* Planner
+    #   plugin: "nav2_theta_star_planner/ThetaStarPlanner"
+    #   how_many_corners: 8
+    #   w_euc_cost: 1.0
+    #   w_traversal_cost: 2.0
+    #   allow_unknown: true
+    #   use_final_approach_orientation: false
+    #   terminal_checking_interval: 5000
+
+
+    # GridBased:    # Smac Hybrid-A*
+    #   plugin: "nav2_smac_planner/SmacPlannerHybrid"
+    #   tolerance: 0.5
+    #   downsample_costmap: false
+    #   downsampling_factor: 1
+    #   allow_unknown: true
+    #   max_iterations: 1000000
+    #   max_on_approach_iterations: 1000
+    #   terminal_checking_interval: 5000
+    #   max_planning_time: 2.0
+
+    #   # DUBIN = forward-only car-like motion.
+    #   # REEDS_SHEPP = forward + reverse car-like motion.
+    #   motion_model_for_search: "DUBIN"
+
+    #   angle_quantization_bins: 72
+    #   analytic_expansion_ratio: 3.5
+    #   analytic_expansion_max_length: 3.0
+    #   analytic_expansion_max_cost: 200.0
+    #   analytic_expansion_max_cost_override: false
+
+    #   minimum_turning_radius: 0.8
+    #   reverse_penalty: 2.0
+    #   change_penalty: 0.0
+    #   non_straight_penalty: 1.2
+    #   cost_penalty: 2.0
+    #   retrospective_penalty: 0.015
+    #   lookup_table_size: 20.0
+    #   cache_obstacle_heuristic: false
+    #   allow_reverse_expansion: false
+    #   smooth_path: true
+    #   debug_visualizations: false
+    #   use_quadratic_cost_penalty: false
+    #   downsample_obstacle_heuristic: true
+    #   allow_primitive_interpolation: false
+
+    #   smoother:
+    #     max_iterations: 1000
+    #     w_smooth: 0.3
+    #     w_data: 0.2
+    #     tolerance: 1.0e-10
+    #     do_refinement: true
+    #     refinement_num: 2
+
+
+    # Fast grid planner for a differential-drive rover. The previous state
+    # # lattice planner used Ackermann motion primitives and regularly missed
+    # # the planner loop rate on this map.
+    # GridBased:
+    #   plugin: "nav2_navfn_planner/NavfnPlanner"
+    #   tolerance: 0.5
+    #   use_astar: false
+    #   allow_unknown: true
+
+smoother_server:  # Path smoother server configuration.
+  ros__parameters:  # ROS 2 parameter block for this node.
+    # Path smoother plugin selection and convergence/refinement settings.
+    use_sim_time: false  # Uses Gazebo simulation clock when true.
+    smoother_plugins: ["simple_smoother"]  # Path smoother plugin IDs.
+    simple_smoother:  # Simple smoother plugin namespace.
+      # Simple smoother tolerance, iteration budget, and refinement toggle.
+      plugin: "nav2_smoother::SimpleSmoother"  # Plugin class name loaded for this component.
+      tolerance: 1.0e-10  # Convergence tolerance used by the path smoother.
+      max_its: 1000  # Maximum smoothing iterations.
+      do_refinement: True  # Runs extra smoothing refinement when true.
+
+behavior_server:  # Recovery and behavior server configuration.
+  ros__parameters:  # ROS 2 parameter block for this node.
+    # Recovery/behavior server topics, cycle rate, plugin list, frames, and velocity limits.
+    costmap_topic: local_costmap/costmap_raw  # Local costmap topic used by behavior server.
+    footprint_topic: local_costmap/published_footprint  # Robot footprint topic used by behavior server.
+    cycle_frequency: 10.0  # Behavior server update frequency in Hz.
+    behavior_plugins: ["spin", "backup", "drive_on_heading", "assisted_teleop", "wait"]  # Behavior plugin IDs loaded by behavior server.
+    spin:  # Spin behavior namespace.
+      # Rotate in place recovery behavior.
+      plugin: "nav2_behaviors/Spin"  # Plugin class name loaded for this component.
+    backup:
+      plugin: "nav2_behaviors/BackUp"
+      acceleration_limit: 0.30
+      deceleration_limit: -0.30
+      minimum_speed: 0.05
+    drive_on_heading:
+      plugin: "nav2_behaviors/DriveOnHeading"
+      acceleration_limit: 0.30
+      deceleration_limit: -0.30
+      minimum_speed: 0.05
+    wait:  # Wait behavior namespace.
+      # Pause behavior used by recovery trees and waypoints.
+      plugin: "nav2_behaviors/Wait"  # Plugin class name loaded for this component.
+    assisted_teleop:  # Assisted teleoperation behavior namespace.
+      # Assisted teleoperation behavior with collision checking.
+      plugin: "nav2_behaviors/AssistedTeleop"  # Plugin class name loaded for this component.
+    global_frame: odom  # Global planning or behavior frame.
+    robot_base_frame: base_link  # Robot base frame used by Nav2.
+    transform_tolerance: 0.1  # Allowed transform timestamp tolerance in seconds.
+    use_sim_time: false  # Uses Gazebo simulation clock when true.
+    simulate_ahead_time: 2.0  # Time horizon used to collision-check behaviors.
+    max_rotational_vel: 1.0  # Maximum rotational velocity for behaviors.
+    min_rotational_vel: 0.4  # Minimum rotational velocity for behaviors.
+    rotational_acc_lim: 3.2  # Rotational acceleration limit for behaviors.
+
+robot_state_publisher:  # Robot state publisher node configuration.
+  ros__parameters:  # ROS 2 parameter block for this node.
+    # Use simulation time for robot_state_publisher timestamps.
+    use_sim_time: false  # Uses Gazebo simulation clock when true.
+
+waypoint_follower:  # Waypoint follower node configuration.
+  ros__parameters:  # ROS 2 parameter block for this node.
+    # Waypoint follower clock, loop rate, failure policy, and task executor plugin.
+    use_sim_time: false  # Uses Gazebo simulation clock when true.
+    loop_rate: 20  # Waypoint follower loop rate in Hz.
+    stop_on_failure: false  # Stops waypoint execution if a waypoint fails.
+    waypoint_task_executor_plugin: "wait_at_waypoint"  # Task executor plugin used at each waypoint.
+    wait_at_waypoint:  # Wait-at-waypoint task executor namespace.
+      # Wait task run at each waypoint and pause duration in milliseconds.
+      plugin: "nav2_waypoint_follower::WaitAtWaypoint"  # Plugin class name loaded for this component.
+      enabled: True  # Enables this plugin or behavior when true.
+      waypoint_pause_duration: 200  # Pause duration at waypoint in milliseconds.
+
+velocity_smoother:  # Velocity smoother node configuration.
+  ros__parameters:  # ROS 2 parameter block for this node.
+    # Smooths cmd_vel output using configured velocity/acceleration limits and odometry feedback.
+    use_sim_time: false  # Uses Gazebo simulation clock when true.
+    smoothing_frequency: 20.0  # Velocity smoother output frequency in Hz.
+    scale_velocities: False  # Scales velocity vector to preserve direction when limiting.
+    feedback: "OPEN_LOOP"  # Velocity smoother feedback mode.
+    max_velocity: [0.26, 0.0, 0.25]
+    min_velocity: [-0.26, 0.0, -0.25]
+    max_accel: [0.6, 0.0, 0.4]
+    max_decel: [-0.6, 0.0, -0.4]
+    odom_topic: "/odometry/filtered"  # Odometry topic consumed by Nav2.
+    odom_duration: 0.1  # Recent odometry time window used by smoother.
+    deadband_velocity: [0.0, 0.0, 0.0]  # Velocity components below these values are zeroed.
+    velocity_timeout: 1.0  # Stops output after this many seconds without commands.

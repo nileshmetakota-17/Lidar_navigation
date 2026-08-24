@@ -1,0 +1,64 @@
+collision_monitor:
+  ros__parameters:
+    use_sim_time: false
+    base_frame_id: base_link
+    odom_frame_id: odom
+    cmd_vel_in_topic: /cmd_vel_nav_smoothed
+    cmd_vel_out_topic: /cmd_vel_nav_safe
+    transform_tolerance: 0.2
+    source_timeout: 0.5
+    base_shift_correction: true
+    stop_pub_timeout: 1.0
+
+    polygons: ["FrontStop", "RearStop", "FrontSlow", "RearSlow"]
+
+    # Configured rover footprint: 0.40 m long x 0.38 m wide.
+    # Zones start at +/-0.22 m, just outside the +/-0.20 m footprint,
+    # excluding observed rover self-returns at 0.10-0.16 m.
+    # Each stop zone is fully nested inside its slowdown zone.
+    FrontStop:
+      type: polygon
+      points: [0.22, 0.32, 0.50, 0.32, 0.50, -0.32, 0.22, -0.32]
+      action_type: stop
+      max_points: 4
+      visualize: true
+      polygon_pub_topic: /collision_monitor/front_stop
+      enabled: true
+
+    RearStop:
+      type: polygon
+      points: [-0.22, 0.32, -0.42, 0.32, -0.42, -0.32, -0.22, -0.32]
+      action_type: stop
+      max_points: 4
+      visualize: true
+      polygon_pub_topic: /collision_monitor/rear_stop
+      enabled: true
+
+    FrontSlow:
+      type: polygon
+      points: [0.22, 0.40, 0.80, 0.40, 0.80, -0.40, 0.22, -0.40]
+      action_type: slowdown
+      max_points: 4
+      slowdown_ratio: 0.30
+      visualize: true
+      polygon_pub_topic: /collision_monitor/front_slow
+      enabled: true
+
+    RearSlow:
+      type: polygon
+      points: [-0.22, 0.40, -0.65, 0.40, -0.65, -0.40, -0.22, -0.40]
+      action_type: slowdown
+      max_points: 4
+      slowdown_ratio: 0.30
+      visualize: true
+      polygon_pub_topic: /collision_monitor/rear_slow
+      enabled: true
+
+    # Use the deterministic 2D scan for the hard motion interlock. The
+    # segmented cloud remains in Nav2's Ground Consistency costmap, but its
+    # frame-to-frame classification noise is too unstable for emergency stop.
+    observation_sources: ["scan"]
+    scan:
+      type: scan
+      topic: /scan
+      enabled: true

@@ -1,0 +1,50 @@
+# pointcloud_to_laserscan:
+#   ros__parameters:
+#     target_frame: base_link
+#     transform_tolerance: 1.0
+#     # The measured floor is approximately z=-0.10 m in base_link. Start the
+#     # slice about 8 cm above it so low obstacles are retained without turning
+#     # ordinary floor returns into LaserScan obstacles.
+#     min_height: -0.02
+#     max_height: 0.45
+#     angle_min: -3.14159265
+#     angle_max: 3.14159265
+#     angle_increment: 0.00872665  # 0.5 degrees; 720 rays per scan
+#     scan_time: 0.1
+#     range_min: 0.30
+#     range_max: 6.0
+#     use_inf: true
+#     inf_epsilon: 1.0
+#     qos_overrides:
+#       "/scan":
+#         publisher:
+#           reliability: reliable
+#           history: keep_last
+#           depth: 1
+
+
+pointcloud_to_laserscan:
+  ros__parameters:
+    target_frame: base_link
+
+    # 1.0 s is unnecessarily large.
+    transform_tolerance: 0.2
+
+    # Start above base_link zero to remove floor noise.
+    min_height: 0.05
+    max_height: 0.8
+    
+    angle_min: -3.14159265
+    angle_max: 3.14159265
+    angle_increment: 0.00872665
+
+    scan_time: 0.1
+
+    # Suppress rover chassis/wheel returns.
+    range_min: 0.1
+    range_max: 6.0
+
+    use_inf: true
+    inf_epsilon: 1.0
+
+    queue_size: 20

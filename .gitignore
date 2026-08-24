@@ -1,0 +1,25 @@
+# ROS 2 / colcon generated output
+build/
+install/
+log/
+
+# Generated distribution archives
+dist/
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+imu_vis_env/
+
+# IDE and operating-system files
+.vscode/
+.idea/
+.DS_Store
+*~
+
+# Local Codex/agent metadata
+.codex/
+.agents/

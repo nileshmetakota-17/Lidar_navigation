@@ -1,0 +1,30 @@
+twist_mux:
+  ros__parameters:
+    topics:
+      navigation:
+        topic: /cmd_vel_nav_smoothed
+        timeout: 0.5
+        priority: 10
+
+      joystick:
+        topic: /cmd_vel_joy
+        timeout: 0.5
+        priority: 100
+
+      keyboard:
+        topic: /cmd_vel_keyboard
+        timeout: 0.5
+        priority: 90
+
+    locks:
+      joystick_solo:
+        topic: /joystick_solo_lock
+        # Do not fail-safe into a permanent lock when joy_control is absent.
+        # The joystick still controls this lock explicitly while it is running.
+        timeout: 0.0
+        priority: 99
+
+      keyboard_solo:
+        topic: /keyboard_solo_lock
+        timeout: 0.0
+        priority: 89

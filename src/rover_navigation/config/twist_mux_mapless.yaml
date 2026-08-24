@@ -1,0 +1,27 @@
+twist_mux:
+  ros__parameters:
+    topics:
+      navigation:
+        # Autonomous commands must pass through collision_monitor first.
+        topic: /cmd_vel_nav_safe
+        timeout: 0.5
+        priority: 10
+      joystick:
+        topic: /cmd_vel_joy
+        timeout: 0.5
+        priority: 100
+      keyboard:
+        topic: /cmd_vel_keyboard
+        timeout: 0.5
+        priority: 90
+
+    locks:
+      joystick_solo:
+        topic: /joystick_solo_lock
+        timeout: 0.0
+        priority: 99
+      keyboard_solo:
+        topic: /keyboard_solo_lock
+        timeout: 0.0
+        priority: 89
+

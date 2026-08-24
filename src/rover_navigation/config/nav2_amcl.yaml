@@ -1,0 +1,74 @@
+amcl:  # AMCL localization node configuration.
+  ros__parameters:  # ROS 2 parameter block for this node.
+    # Use Gazebo/ROS simulation clock instead of wall time.
+    use_sim_time: false  # Uses Gazebo simulation clock when true.
+
+    # TF frame names used by AMCL to connect robot, odometry, and map poses.
+    base_frame_id: "base_link"  # Robot base frame used by AMCL.
+    odom_frame_id: "odom"  # EKF odometry frame used by AMCL.
+    global_frame_id: "map"  # Global localization frame, usually map.
+
+    # LaserScan topic used for localization updates.
+    scan_topic: "/scan"  # LaserScan topic used by SLAM or localization.
+
+    # Motion model for a differential-drive rover.
+    robot_model_type: "nav2_amcl::DifferentialMotionModel"  # AMCL motion model plugin class.
+
+    # Particle filter size bounds; more particles improve robustness but cost CPU.
+    min_particles: 500  # Lower limit for AMCL particle count.
+    max_particles: 2000  # Upper limit for AMCL particle count.
+
+    # Odometry noise terms for rotation/translation uncertainty in the motion model.
+    alpha1: 0.2  # AMCL odometry rotation-from-rotation noise coefficient.
+    alpha2: 0.2  # AMCL odometry rotation-from-translation noise coefficient.
+    alpha3: 0.2  # AMCL odometry translation-from-translation noise coefficient.
+    alpha4: 0.2  # AMCL odometry translation-from-rotation noise coefficient.
+    alpha5: 0.2  # AMCL strafe noise coefficient for applicable motion models.
+
+    # Minimum movement before AMCL updates the particle filter.
+    update_min_d: 0.25  # Minimum linear motion before AMCL update.
+    update_min_a: 0.2  # Minimum angular motion before AMCL update.
+    # Number of filter updates between resampling steps.
+    resample_interval: 1  # Number of AMCL updates between particle resampling.
+
+    # TF publication tolerance and whether AMCL publishes map->odom.
+    transform_tolerance: 1.0  # Allowed transform timestamp tolerance in seconds.
+    tf_broadcast: true  # Publishes map-to-odom transform when true.
+
+    # Laser likelihood-field model and beam sampling settings.
+    laser_model_type: "likelihood_field"  # AMCL laser sensor model type.
+    laser_likelihood_max_dist: 2.0  # Maximum obstacle distance used by likelihood-field model.
+    max_beams: 60  # Maximum scan beams sampled by AMCL per update.
+
+    # Sensor model weights for hit, short, max-range, and random measurements.
+    z_hit: 0.5  # Sensor model weight for expected obstacle hits.
+    z_short: 0.05  # Sensor model weight for unexpected short readings.
+    z_max: 0.05  # Sensor model weight for max-range readings.
+    z_rand: 0.5  # Sensor model weight for random measurements.
+    # Standard deviation for expected laser hits and exponential parameter for short hits.
+    sigma_hit: 0.2  # Standard deviation for expected laser hits.
+    lambda_short: 0.1  # Exponential decay parameter for unexpected short laser readings.
+
+    # Initial pose behavior and starting pose [x, y, z, yaw].
+    set_initial_pose: false  # Prefer RViz "2D Pose Estimate" for initial pose.
+    always_reset_initial_pose: false  # Forces reset to configured initial pose on startup.
+    initial_pose.x: 0.0  # Initial robot x position in map frame.
+    initial_pose.y: 0.0  # Initial robot y position in map frame.
+    initial_pose.z: 0.0  # Initial robot z position in map frame.
+    initial_pose.yaw: 0.0  # Initial robot yaw heading in map frame.
+
+map_server:  # Map server node configuration.
+  ros__parameters:  # ROS 2 parameter block for this node.
+    # Use simulation time for map publication timestamps.
+    use_sim_time: false  # Uses Gazebo simulation clock when true.
+    # Map yaml path; launch files can override this at runtime.
+    yaml_filename: ""  # Supply the map path through the launch argument.
+
+lifecycle_manager_localization:  # Lifecycle manager for localization nodes.
+  ros__parameters:  # ROS 2 parameter block for this node.
+    # Lifecycle manager clock source.
+    use_sim_time: false  # Uses Gazebo simulation clock when true.
+    # Automatically configure and activate managed localization nodes.
+    autostart: true  # Automatically configures and activates lifecycle nodes.
+    # Nodes controlled by this lifecycle manager.
+    node_names: ["map_server", "amcl"]  # Lifecycle-managed node names.
