@@ -1,4 +1,4 @@
-# GPS-and-Lidar-Fusion-lidar-navigation — Version 2 Setup
+# Lidar_navigation — Version 2 Setup
 
 This archive recreates the point-to-point rover workspace on Ubuntu 22.04 with
 ROS 2 Humble. FAST-LIO and Isaac ROS are intentionally not included.
@@ -17,17 +17,15 @@ rosdep update
 
 ## 2. Clone the workspace from GitHub
 
-Install Git and clone the `lidar-navigation` branch:
+Install Git and clone the repository:
 
 ```bash
 sudo apt update
 sudo apt install -y git
 
 cd ~
-git clone --branch lidar-navigation \
-  https://github.com/BhairavRobotics/GPS-and-Lidar-Fusion.git \
-  GPS-and-Lidar-Fusion-lidar-navigation
-cd ~/GPS-and-Lidar-Fusion-lidar-navigation
+git clone https://github.com/nileshmetakota-17/Lidar_navigation.git
+cd ~/Lidar_navigation
 ```
 
 The Git repository intentionally contains no `build/`, `install/`, `log/`, or
@@ -39,16 +37,14 @@ created on the destination computer.
 Before pulling, check whether the local workspace contains uncommitted changes:
 
 ```bash
-cd ~/GPS-and-Lidar-Fusion-lidar-navigation
+cd ~/Lidar_navigation
 git status
 ```
 
-If the working tree is clean, download and apply the newest version of the
-branch:
+If the working tree is clean, download and apply the newest version:
 
 ```bash
-git switch lidar-navigation
-git pull --rebase origin lidar-navigation
+git pull --ff-only
 ```
 
 Reinstall dependencies and rebuild after pulling changes:
@@ -98,7 +94,7 @@ different clone directory before running the commands above.
 ### 3.2 Install ROS dependencies and build the workspace
 
 ```bash
-cd ~/GPS-and-Lidar-Fusion-lidar-navigation
+cd ~/Lidar_navigation
 source /opt/ros/humble/setup.bash
 rosdep install --from-paths src --ignore-src --rosdistro humble -r -y
 colcon list
@@ -122,7 +118,7 @@ passing a separate `DISTRO_ROS` option. If `livox_ros_driver2` was already
 configured before applying the fix, clear its CMake cache and rebuild it:
 
 ```bash
-cd ~/GPS-and-Lidar-Fusion-lidar-navigation
+cd ~/Lidar_navigation
 source /opt/ros/humble/setup.bash
 colcon build --symlink-install \
   --packages-select livox_ros_driver2 \
@@ -176,8 +172,8 @@ After the first successful `colcon build`, add this block to the end of
 
 ```bash
 # Rover ROS 2 Humble workspace
-if [ -f "$HOME/GPS-and-Lidar-Fusion-lidar-navigation/install/local_setup.bash" ]; then
-  source "$HOME/GPS-and-Lidar-Fusion-lidar-navigation/scripts/rover_env.sh"
+if [ -f "$HOME/Lidar_navigation/install/local_setup.bash" ]; then
+  source "$HOME/Lidar_navigation/scripts/rover_env.sh"
 fi
 ```
 
@@ -187,8 +183,8 @@ You can append it with these commands:
 cat >> ~/.bashrc <<'EOF'
 
 # Rover ROS 2 Humble workspace
-if [ -f "$HOME/GPS-and-Lidar-Fusion-lidar-navigation/install/local_setup.bash" ]; then
-  source "$HOME/GPS-and-Lidar-Fusion-lidar-navigation/scripts/rover_env.sh"
+if [ -f "$HOME/Lidar_navigation/install/local_setup.bash" ]; then
+  source "$HOME/Lidar_navigation/scripts/rover_env.sh"
 fi
 EOF
 source ~/.bashrc
@@ -202,7 +198,7 @@ export ROS_DOMAIN_ID=77
 export ROS_LOCALHOST_ONLY=0
 ```
 
-Do not add `source ~/GPS-and-Lidar-Fusion-lidar-navigation/install/setup.bash` separately; the
+Do not add `source ~/Lidar_navigation/install/setup.bash` separately; the
 helper already loads it and avoids duplicate or stale environment entries. If
 you extract the workspace under another name or location, change the two paths
 in the `.bashrc` block accordingly.
@@ -212,7 +208,7 @@ in the `.bashrc` block accordingly.
 If you do not want to edit `.bashrc`, run this in every new terminal:
 
 ```bash
-cd ~/GPS-and-Lidar-Fusion-lidar-navigation
+cd ~/Lidar_navigation
 source scripts/rover_env.sh
 ```
 
@@ -252,7 +248,7 @@ If generated files contain an old workspace path, remove only generated
 outputs and rebuild:
 
 ```bash
-cd ~/GPS-and-Lidar-Fusion-lidar-navigation
+cd ~/Lidar_navigation
 rm -rf build install log
 source /opt/ros/humble/setup.bash
 rosdep install --from-paths src --ignore-src --rosdistro humble -r -y
@@ -265,17 +261,17 @@ source install/setup.bash
 On the source computer, install `zip` once and run the archive utility:
 
 ```bash
-cd ~/GPS-and-Lidar-Fusion-lidar-navigation
+cd ~/Lidar_navigation
 sudo apt install -y zip
 ./scripts/create_portable_zip.sh
 ```
 
-The result is `dist/GPS-and-Lidar-Fusion-lidar-navigation.zip`. The utility includes the source,
+The result is `dist/Lidar_navigation.zip`. The utility includes the source,
 configuration, maps, scripts, and documentation, while excluding generated
 `build/`, `install/`, and `log/` trees, Git/Codex metadata, caches, virtual
 environments, FAST-LIO, and Isaac ROS workspaces. It also prints a SHA-256
 checksum that can be checked after copying:
 
 ```bash
-sha256sum GPS-and-Lidar-Fusion-lidar-navigation.zip
+sha256sum Lidar_navigation.zip
 ```
