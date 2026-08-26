@@ -79,21 +79,18 @@ platform and should be verified against the hardware vendor's instructions.
 
 ## Clone, pull, and update
 
-Clone only the `lidar-navigation` branch:
+Clone the repository:
 
 ```bash
-git clone --branch lidar-navigation --single-branch \
-  https://github.com/BhairavRobotics/GPS-and-Lidar-Fusion.git \
-  GPS-and-Lidar-Fusion-lidar-navigation
-cd GPS-and-Lidar-Fusion-lidar-navigation
+git clone https://github.com/nileshmetakota-17/Lidar_navigation.git
+cd Lidar_navigation
 ```
 
 Pull the latest changes later:
 
 ```bash
-cd ~/GPS-and-Lidar-Fusion-lidar-navigation
-git switch lidar-navigation
-git pull --ff-only origin lidar-navigation
+cd ~/Lidar_navigation
+git pull --ff-only
 ```
 
 Use `--ff-only` to avoid accidentally creating a merge commit when updating the
