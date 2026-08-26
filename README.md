@@ -1,4 +1,4 @@
-# Lidar Rover Workspace
+# GPS and LiDAR Fusion — LiDAR Navigation
 
 Version 2 of the ROS 2 Humble rover workspace for point-to-point navigation.
 It combines wheel and IMU odometry with point-cloud data from a Livox
@@ -36,8 +36,9 @@ Use **Ubuntu 22.04 (Jammy), 64-bit, with ROS 2 Humble Desktop**. Clone the
 repository and follow the complete [setup guide](SETUP_VERSION2.md):
 
 ```bash
-git clone https://github.com/BhairavRobotics/GPS-and-Lidar-Fusion.git
-cd GPS-and-Lidar-Fusion
+git clone https://github.com/BhairavRobotics/GPS-and-Lidar-Fusion.git \
+  GPS-and-Lidar-Fusion-lidar-navigation
+cd GPS-and-Lidar-Fusion-lidar-navigation
 git switch lidar-navigation
 ```
 
@@ -53,7 +54,7 @@ source install/setup.bash
 After setup and build, every new terminal can load the environment with:
 
 ```bash
-cd /path/to/rover_ros_ws
+cd /path/to/GPS-and-Lidar-Fusion-lidar-navigation
 source scripts/rover_env.sh
 ```
 
@@ -118,3 +119,16 @@ saved map + AMCL + filtered odometry
 The supplied map defaults to `src/rover_navigation/maps/ofc_map2.yaml`. In RViz,
 set the initial pose with **2D Pose Estimate**, then send a destination with
 **Nav2 Goal**.
+
+## Results
+
+### Test demo
+
+<video controls preload="metadata" width="100%">
+  <source src="test%20videos/test-demo.mp4" type="video/mp4">
+  Your browser does not support embedded video. Open the
+  <a href="test%20videos/test-demo.mp4">test demo video</a> instead.
+</video>
+
+[Play the test demo video](test%20videos/test-demo.mp4) ·
+[Recording details and local playback instructions](test%20videos/README.md)

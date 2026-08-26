@@ -83,14 +83,15 @@ Clone only the `lidar-navigation` branch:
 
 ```bash
 git clone --branch lidar-navigation --single-branch \
-  https://github.com/BhairavRobotics/GPS-and-Lidar-Fusion.git
-cd GPS-and-Lidar-Fusion
+  https://github.com/BhairavRobotics/GPS-and-Lidar-Fusion.git \
+  GPS-and-Lidar-Fusion-lidar-navigation
+cd GPS-and-Lidar-Fusion-lidar-navigation
 ```
 
 Pull the latest changes later:
 
 ```bash
-cd ~/rover_ros_ws_version2/GPS-and-Lidar-Fusion
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 git switch lidar-navigation
 git pull --ff-only origin lidar-navigation
 ```

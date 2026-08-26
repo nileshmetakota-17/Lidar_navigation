@@ -23,3 +23,6 @@ imu_vis_env/
 # Local Codex/agent metadata
 .codex/
 .agents/
+
+# Browser-compatible result demo (overrides global *.mp4 ignore rules)
+!test videos/test-demo.mp4

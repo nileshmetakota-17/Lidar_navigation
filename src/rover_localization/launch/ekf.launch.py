@@ -49,6 +49,13 @@ def generate_launch_description():
         ),
 
         Node(
+            package="rover_localization",
+            executable="livox_imu_converter",
+            name="livox_imu_converter",
+            output="screen",
+        ),
+
+        Node(
             package="robot_localization",
             executable="ekf_node",
             name="ekf_filter_node",

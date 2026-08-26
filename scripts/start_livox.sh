@@ -4,7 +4,7 @@ set -e
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/rover_env.sh"
 
-HOST_IP="192.168.10.1"
+HOST_IP="192.168.10.4"
 LIDAR_IP="192.168.10.147"
 SOURCE_CONFIG="${ROVER_WS}/src/livox_ros_driver2/config/MID360s_config.json"
 INSTALLED_CONFIG="${ROVER_WS}/install/livox_ros_driver2/share/livox_ros_driver2/config/MID360s_config.json"

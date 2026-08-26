@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 WORKSPACE_DIR="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 WORKSPACE_NAME="$(basename -- "${WORKSPACE_DIR}")"
 OUTPUT_DIR="${WORKSPACE_DIR}/dist"
-OUTPUT_FILE="${OUTPUT_DIR}/rover_ros_ws_version2.zip"
+OUTPUT_FILE="${OUTPUT_DIR}/GPS-and-Lidar-Fusion-lidar-navigation.zip"
 
 command -v zip >/dev/null 2>&1 || {
   echo "Error: zip is not installed. Run: sudo apt install zip" >&2

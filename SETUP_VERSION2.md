@@ -1,4 +1,4 @@
-# Rover ROS 2 Workspace — Version 2 Setup
+# GPS-and-Lidar-Fusion-lidar-navigation — Version 2 Setup
 
 This archive recreates the point-to-point rover workspace on Ubuntu 22.04 with
 ROS 2 Humble. FAST-LIO and Isaac ROS are intentionally not included.
@@ -26,8 +26,8 @@ sudo apt install -y git
 cd ~
 git clone --branch lidar-navigation \
   https://github.com/BhairavRobotics/GPS-and-Lidar-Fusion.git \
-  rover_ros_ws_version2
-cd ~/rover_ros_ws_version2
+  GPS-and-Lidar-Fusion-lidar-navigation
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 ```
 
 The Git repository intentionally contains no `build/`, `install/`, `log/`, or
@@ -39,7 +39,7 @@ created on the destination computer.
 Before pulling, check whether the local workspace contains uncommitted changes:
 
 ```bash
-cd ~/rover_ros_ws_version2
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 git status
 ```
 
@@ -98,7 +98,7 @@ different clone directory before running the commands above.
 ### 3.2 Install ROS dependencies and build the workspace
 
 ```bash
-cd ~/rover_ros_ws_version2
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 source /opt/ros/humble/setup.bash
 rosdep install --from-paths src --ignore-src --rosdistro humble -r -y
 colcon list
@@ -122,7 +122,7 @@ passing a separate `DISTRO_ROS` option. If `livox_ros_driver2` was already
 configured before applying the fix, clear its CMake cache and rebuild it:
 
 ```bash
-cd ~/rover_ros_ws_version2
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 source /opt/ros/humble/setup.bash
 colcon build --symlink-install \
   --packages-select livox_ros_driver2 \
@@ -176,8 +176,8 @@ After the first successful `colcon build`, add this block to the end of
 
 ```bash
 # Rover ROS 2 Humble workspace
-if [ -f "$HOME/rover_ros_ws_version2/install/local_setup.bash" ]; then
-  source "$HOME/rover_ros_ws_version2/scripts/rover_env.sh"
+if [ -f "$HOME/GPS-and-Lidar-Fusion-lidar-navigation/install/local_setup.bash" ]; then
+  source "$HOME/GPS-and-Lidar-Fusion-lidar-navigation/scripts/rover_env.sh"
 fi
 ```
 
@@ -187,8 +187,8 @@ You can append it with these commands:
 cat >> ~/.bashrc <<'EOF'
 
 # Rover ROS 2 Humble workspace
-if [ -f "$HOME/rover_ros_ws_version2/install/local_setup.bash" ]; then
-  source "$HOME/rover_ros_ws_version2/scripts/rover_env.sh"
+if [ -f "$HOME/GPS-and-Lidar-Fusion-lidar-navigation/install/local_setup.bash" ]; then
+  source "$HOME/GPS-and-Lidar-Fusion-lidar-navigation/scripts/rover_env.sh"
 fi
 EOF
 source ~/.bashrc
@@ -202,7 +202,7 @@ export ROS_DOMAIN_ID=77
 export ROS_LOCALHOST_ONLY=0
 ```
 
-Do not add `source ~/rover_ros_ws_version2/install/setup.bash` separately; the
+Do not add `source ~/GPS-and-Lidar-Fusion-lidar-navigation/install/setup.bash` separately; the
 helper already loads it and avoids duplicate or stale environment entries. If
 you extract the workspace under another name or location, change the two paths
 in the `.bashrc` block accordingly.
@@ -212,7 +212,7 @@ in the `.bashrc` block accordingly.
 If you do not want to edit `.bashrc`, run this in every new terminal:
 
 ```bash
-cd ~/rover_ros_ws_version2
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 source scripts/rover_env.sh
 ```
 
@@ -252,7 +252,7 @@ If generated files contain an old workspace path, remove only generated
 outputs and rebuild:
 
 ```bash
-cd ~/rover_ros_ws_version2
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 rm -rf build install log
 source /opt/ros/humble/setup.bash
 rosdep install --from-paths src --ignore-src --rosdistro humble -r -y
@@ -265,17 +265,17 @@ source install/setup.bash
 On the source computer, install `zip` once and run the archive utility:
 
 ```bash
-cd ~/rover_ros_ws_version2
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 sudo apt install -y zip
 ./scripts/create_portable_zip.sh
 ```
 
-The result is `dist/rover_ros_ws_version2.zip`. The utility includes the source,
+The result is `dist/GPS-and-Lidar-Fusion-lidar-navigation.zip`. The utility includes the source,
 configuration, maps, scripts, and documentation, while excluding generated
 `build/`, `install/`, and `log/` trees, Git/Codex metadata, caches, virtual
 environments, FAST-LIO, and Isaac ROS workspaces. It also prints a SHA-256
 checksum that can be checked after copying:
 
 ```bash
-sha256sum rover_ros_ws_version2.zip
+sha256sum GPS-and-Lidar-Fusion-lidar-navigation.zip
 ```

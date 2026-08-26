@@ -49,6 +49,7 @@ setup(
             "print_position = rover_localization.print_position:main",
             "print_imu = rover_localization.print_imu:main",
             "livox_imu = rover_localization.livox_imu_print:main",
+            'livox_imu_converter = rover_localization.livox_imu_converter:main',
         ],
     },
 )

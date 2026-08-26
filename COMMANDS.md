@@ -1,4 +1,4 @@
-# Rover ROS 2 Command Cheat Sheet
+# GPS-and-Lidar-Fusion-lidar-navigation Command Cheat Sheet
 
 A compact reference for building, launching, testing, and debugging the rover ROS 2 workspace.
 
@@ -7,15 +7,15 @@ A compact reference for building, launching, testing, and debugging the rover RO
 ## 1. Workspace Navigation
 
 ```bash
-cd ~/rover_ros_ws
-cd ~/rover_ros_ws/src
-ls ~/rover_ros_ws/src
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation/src
+ls ~/GPS-and-Lidar-Fusion-lidar-navigation/src
 ```
 
 Show the workspace tree:
 
 ```bash
-find ~/rover_ros_ws/src -maxdepth 2 -type d | sort
+find ~/GPS-and-Lidar-Fusion-lidar-navigation/src -maxdepth 2 -type d | sort
 ```
 
 ---
@@ -26,20 +26,20 @@ Run these commands in every new terminal:
 
 ```bash
 source /opt/ros/humble/setup.bash
-source ~/rover_ros_ws/install/setup.bash
+source ~/GPS-and-Lidar-Fusion-lidar-navigation/install/setup.bash
 ```
 
 A convenient one-line version:
 
 ```bash
-source /opt/ros/humble/setup.bash && source ~/rover_ros_ws/install/setup.bash
+source /opt/ros/humble/setup.bash && source ~/GPS-and-Lidar-Fusion-lidar-navigation/install/setup.bash
 ```
 
 Add them permanently to Bash:
 
 ```bash
 echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
-echo "source ~/rover_ros_ws/install/setup.bash" >> ~/.bashrc
+echo "source ~/GPS-and-Lidar-Fusion-lidar-navigation/install/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
@@ -50,7 +50,7 @@ source ~/.bashrc
 Build all packages:
 
 ```bash
-cd ~/rover_ros_ws
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 colcon build --symlink-install
 source install/setup.bash
 ```
@@ -58,7 +58,7 @@ source install/setup.bash
 Build selected packages:
 
 ```bash
-cd ~/rover_ros_ws
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 
 colcon build \
   --symlink-install \
@@ -98,7 +98,7 @@ colcon build \
 Clean the workspace before rebuilding:
 
 ```bash
-cd ~/rover_ros_ws
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 rm -rf build install log
 colcon build --symlink-install
 source install/setup.bash
@@ -145,7 +145,7 @@ Use a separate terminal for each major process.
 
 ```bash
 source /opt/ros/humble/setup.bash
-source ~/rover_ros_ws/install/setup.bash
+source ~/GPS-and-Lidar-Fusion-lidar-navigation/install/setup.bash
 
 ros2 run rover_control udp_bridge
 ```
@@ -154,7 +154,7 @@ ros2 run rover_control udp_bridge
 
 ```bash
 source /opt/ros/humble/setup.bash
-source ~/rover_ros_ws/install/setup.bash
+source ~/GPS-and-Lidar-Fusion-lidar-navigation/install/setup.bash
 
 ros2 launch rover_localization ekf.launch.py
 ```
@@ -333,7 +333,7 @@ MID360S:
 ```bash
 export ROS_DOMAIN_ID=77
 source /opt/ros/humble/setup.bash
-source ~/rover_ros_ws/install/local_setup.bash
+source ~/GPS-and-Lidar-Fusion-lidar-navigation/install/local_setup.bash
 ros2 launch livox_ros_driver2 msg_MID360s_launch.py
 ```
 
@@ -378,7 +378,7 @@ ros2 topic echo /livox/imu --once
 Build from a clean ROS environment so an older workspace overlay is not used:
 
 ```bash
-cd ~/rover_ros_ws
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 unset AMENT_PREFIX_PATH COLCON_PREFIX_PATH CMAKE_PREFIX_PATH
 source /opt/ros/humble/setup.bash
 
@@ -393,14 +393,14 @@ Source and verify the rebuilt package:
 
 ```bash
 source /opt/ros/humble/setup.bash
-source ~/rover_ros_ws/install/local_setup.bash
+source ~/GPS-and-Lidar-Fusion-lidar-navigation/install/local_setup.bash
 ros2 pkg prefix livox_ros_driver2
 ```
 
 Expected prefix:
 
 ```text
-/home/nilesh/rover_ros_ws/install/livox_ros_driver2
+/home/nilesh/GPS-and-Lidar-Fusion-lidar-navigation/install/livox_ros_driver2
 ```
 
 ### Troubleshooting: driver initializes but publishes no topic
@@ -436,13 +436,13 @@ Reset an old overlay and confirm package resolution:
 ```bash
 unset AMENT_PREFIX_PATH COLCON_PREFIX_PATH CMAKE_PREFIX_PATH
 source /opt/ros/humble/setup.bash
-source ~/rover_ros_ws/install/local_setup.bash
+source ~/GPS-and-Lidar-Fusion-lidar-navigation/install/local_setup.bash
 export ROS_DOMAIN_ID=77
 
 ros2 pkg prefix livox_ros_driver2
 ```
 
-The launch log must load its configuration from `~/rover_ros_ws`, not from
+The launch log must load its configuration from `~/GPS-and-Lidar-Fusion-lidar-navigation`, not from
 `~/Pocs/ws_livox`.
 
 Verify the active network route and broadcast discovery:
@@ -461,7 +461,7 @@ After launching, verify ROS discovery and data:
 ```bash
 export ROS_DOMAIN_ID=77
 source /opt/ros/humble/setup.bash
-source ~/rover_ros_ws/install/local_setup.bash
+source ~/GPS-and-Lidar-Fusion-lidar-navigation/install/local_setup.bash
 
 ros2 daemon stop
 ros2 daemon start
@@ -479,26 +479,26 @@ ros2 topic hz /livox/lidar
 Load the clean rover ROS environment in the current terminal:
 
 ```bash
-source ~/rover_ros_ws/scripts/rover_env.sh
+source ~/GPS-and-Lidar-Fusion-lidar-navigation/scripts/rover_env.sh
 ```
 
 Start only the Livox MID360S driver:
 
 ```bash
-~/rover_ros_ws/scripts/start_livox.sh
+~/GPS-and-Lidar-Fusion-lidar-navigation/scripts/start_livox.sh
 ```
 
 Start only FAST-LIO after verifying that real LiDAR and IMU messages are
 arriving:
 
 ```bash
-~/rover_ros_ws/scripts/start_fastlio.sh
+~/GPS-and-Lidar-Fusion-lidar-navigation/scripts/start_fastlio.sh
 ```
 
 Start the Livox driver and FAST-LIO together:
 
 ```bash
-~/rover_ros_ws/scripts/start_livox_fastlio.sh
+~/GPS-and-Lidar-Fusion-lidar-navigation/scripts/start_livox_fastlio.sh
 ```
 
 The combined script waits up to 30 seconds for a real `/livox/lidar` message
@@ -518,7 +518,7 @@ directory was cleaned and only selected packages were rebuilt. Rebuild it
 against the installed Livox messages:
 
 ```bash
-cd ~/rover_ros_ws
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 unset AMENT_PREFIX_PATH COLCON_PREFIX_PATH CMAKE_PREFIX_PATH
 source /opt/ros/humble/setup.bash
 source install/livox_ros_driver2/share/livox_ros_driver2/local_setup.bash
@@ -532,7 +532,7 @@ colcon build \
 Verify and reload the environment:
 
 ```bash
-source ~/rover_ros_ws/scripts/rover_env.sh
+source ~/GPS-and-Lidar-Fusion-lidar-navigation/scripts/rover_env.sh
 ros2 pkg prefix fast_lio
 ros2 pkg executables fast_lio
 ```
@@ -540,7 +540,7 @@ ros2 pkg executables fast_lio
 Expected prefix and executable:
 
 ```text
-/home/nilesh/rover_ros_ws/install/fast_lio
+/home/nilesh/GPS-and-Lidar-Fusion-lidar-navigation/install/fast_lio
 fast_lio fastlio_mapping
 ```
 
@@ -582,7 +582,7 @@ RViz automatically:
 ```bash
 unset AMENT_PREFIX_PATH COLCON_PREFIX_PATH CMAKE_PREFIX_PATH
 source /opt/ros/humble/setup.bash
-source ~/rover_ros_ws/install/local_setup.bash
+source ~/GPS-and-Lidar-Fusion-lidar-navigation/install/local_setup.bash
 export ROS_DOMAIN_ID=77
 
 ros2 launch rover_navigation slam_launch.py
@@ -655,7 +655,7 @@ Rebuild the navigation package after changing its launch or configuration
 files:
 
 ```bash
-cd ~/rover_ros_ws
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 unset AMENT_PREFIX_PATH COLCON_PREFIX_PATH CMAKE_PREFIX_PATH
 source /opt/ros/humble/setup.bash
 colcon build --packages-select rover_navigation --symlink-install
@@ -667,7 +667,7 @@ Start Livox and FAST-LIO first. Confirm that FAST-LIO odometry is stable near
 its startup origin, then launch Nav2:
 
 ```bash
-source ~/rover_ros_ws/scripts/rover_env.sh
+source ~/GPS-and-Lidar-Fusion-lidar-navigation/scripts/rover_env.sh
 ros2 launch rover_navigation nav2_launch.py
 ```
 
@@ -684,7 +684,7 @@ Useful overrides:
 
 ```bash
 ros2 launch rover_navigation nav2_launch.py \
-  map:=/home/nilesh/rover_ros_ws/src/rover_navigation/maps/ofc_map.yaml \
+  map:=/home/nilesh/GPS-and-Lidar-Fusion-lidar-navigation/src/rover_navigation/maps/ofc_map.yaml \
   rviz:=true
 ```
 
@@ -770,7 +770,7 @@ Recommended clean startup order:
 
 ```text
 1. ros2 run rover_control udp_bridge
-2. ~/rover_ros_ws/scripts/start_livox_fastlio.sh
+2. ~/GPS-and-Lidar-Fusion-lidar-navigation/scripts/start_livox_fastlio.sh
 3. ros2 launch rover_navigation nav2_launch.py
 4. Set RViz 2D Pose Estimate
 5. Send a navigation goal
@@ -781,33 +781,33 @@ Recommended clean startup order:
 The MID360 configuration has PCD saving enabled and writes the map to:
 
 ```text
-~/rover_ros_ws/src/maps/my_map.pcd
+~/GPS-and-Lidar-Fusion-lidar-navigation/src/maps/my_map.pcd
 ```
 
 While FAST-LIO mapping is running, save the current map:
 
 ```bash
-mkdir -p ~/rover_ros_ws/src/maps
+mkdir -p ~/GPS-and-Lidar-Fusion-lidar-navigation/src/maps
 ros2 service call /map_save std_srvs/srv/Trigger "{}"
 ```
 
 Confirm that the file was created:
 
 ```bash
-ls -lh ~/rover_ros_ws/src/maps/my_map.pcd
+ls -lh ~/GPS-and-Lidar-Fusion-lidar-navigation/src/maps/my_map.pcd
 ```
 
 Open the saved point cloud:
 
 ```bash
-pcl_viewer ~/rover_ros_ws/src/maps/my_map.pcd
+pcl_viewer ~/GPS-and-Lidar-Fusion-lidar-navigation/src/maps/my_map.pcd
 ```
 
 If the service reports `Map save disabled`, verify these settings in
 `FAST_LIO_ROS2/config/mid360.yaml`:
 
 ```yaml
-map_file_path: "/home/nilesh/rover_ros_ws/src/maps/my_map.pcd"
+map_file_path: "/home/nilesh/GPS-and-Lidar-Fusion-lidar-navigation/src/maps/my_map.pcd"
 pcd_save:
     pcd_save_en: true
 ```
@@ -1166,18 +1166,18 @@ Avoid leaving all covariance values at zero unless the measurement is genuinely 
 ## 19. Useful Package Locations
 
 ```bash
-cd ~/rover_ros_ws/src/rover_control
-cd ~/rover_ros_ws/src/rover_localization
-cd ~/rover_ros_ws/src/rover_navigation
-cd ~/rover_ros_ws/src/livox_ros_driver2
-cd ~/rover_ros_ws/src/FAST_LIO_ROS2
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation/src/rover_control
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation/src/rover_localization
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation/src/rover_navigation
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation/src/livox_ros_driver2
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation/src/FAST_LIO_ROS2
 ```
 
 List package files:
 
 ```bash
-find ~/rover_ros_ws/src/rover_control -maxdepth 3 -type f | sort
-find ~/rover_ros_ws/src/rover_localization -maxdepth 3 -type f | sort
+find ~/GPS-and-Lidar-Fusion-lidar-navigation/src/rover_control -maxdepth 3 -type f | sort
+find ~/GPS-and-Lidar-Fusion-lidar-navigation/src/rover_localization -maxdepth 3 -type f | sort
 ```
 
 ---
@@ -1187,7 +1187,7 @@ find ~/rover_ros_ws/src/rover_localization -maxdepth 3 -type f | sort
 Find launch files:
 
 ```bash
-find ~/rover_ros_ws/src -type f \
+find ~/GPS-and-Lidar-Fusion-lidar-navigation/src -type f \
   \( -name "*.launch.py" -o -name "*.launch.xml" -o -name "*.launch.yaml" \) \
   | sort
 ```
@@ -1195,7 +1195,7 @@ find ~/rover_ros_ws/src -type f \
 Find YAML configuration files:
 
 ```bash
-find ~/rover_ros_ws/src -type f \
+find ~/GPS-and-Lidar-Fusion-lidar-navigation/src -type f \
   \( -name "*.yaml" -o -name "*.yml" \) \
   | sort
 ```
@@ -1204,14 +1204,14 @@ Search for odometry or IMU topic names:
 
 ```bash
 grep -RniE "/odom|/imu/data|/odometry/filtered" \
-  ~/rover_ros_ws/src
+  ~/GPS-and-Lidar-Fusion-lidar-navigation/src
 ```
 
 Search for TF publishers:
 
 ```bash
 grep -RniE "publish_tf|TransformBroadcaster|odom.*base_link" \
-  ~/rover_ros_ws/src
+  ~/GPS-and-Lidar-Fusion-lidar-navigation/src
 ```
 
 ---
@@ -1227,7 +1227,7 @@ ros2 launch rover_localization ekf.launch.py --show-args
 Check whether a launch file is installed:
 
 ```bash
-find ~/rover_ros_ws/install/rover_localization \
+find ~/GPS-and-Lidar-Fusion-lidar-navigation/install/rover_localization \
   -type f \
   -name "*.launch.py"
 ```
@@ -1348,14 +1348,14 @@ sudo tcpdump -i any \
 
 ```bash
 source /opt/ros/humble/setup.bash
-source ~/rover_ros_ws/install/setup.bash
+source ~/GPS-and-Lidar-Fusion-lidar-navigation/install/setup.bash
 ros2 pkg list | grep rover
 ```
 
 If still missing:
 
 ```bash
-cd ~/rover_ros_ws
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 colcon build --symlink-install
 source install/setup.bash
 ```
@@ -1459,7 +1459,7 @@ pkill -f udp_bridge
 ### Build
 
 ```bash
-cd ~/rover_ros_ws
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 source /opt/ros/humble/setup.bash
 colcon build --symlink-install
 source install/setup.bash
@@ -1517,7 +1517,7 @@ ros2 run rover_localization print_filtered
 | Task | Command |
 |---|---|
 | Build workspace | `colcon build --symlink-install` |
-| Source workspace | `source ~/rover_ros_ws/install/setup.bash` |
+| Source workspace | `source ~/GPS-and-Lidar-Fusion-lidar-navigation/install/setup.bash` |
 | Start UDP bridge | `ros2 run rover_control udp_bridge` |
 | Start EKF | `ros2 launch rover_localization ekf.launch.py` |
 | Move forward 1 m | `ros2 run rover_control move_x 1.0` |
@@ -1552,7 +1552,7 @@ If these print `odom` and `base_link`, Nav2 is using an old installed config.
 Stop Nav2, rebuild and re-source it, then launch it again:
 
 ```bash
-cd ~/rover_ros_ws
+cd ~/GPS-and-Lidar-Fusion-lidar-navigation
 source /opt/ros/humble/setup.bash
 colcon build --packages-select rover_navigation --symlink-install
 source install/local_setup.bash

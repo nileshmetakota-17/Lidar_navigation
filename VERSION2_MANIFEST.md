@@ -1,6 +1,6 @@
-# Version 2 Portable Archive
+# GPS-and-Lidar-Fusion-lidar-navigation Portable Archive
 
-Archive: `rover_ros_ws_version2.zip`
+Archive: `GPS-and-Lidar-Fusion-lidar-navigation.zip`
 
 Included:
 
@@ -30,4 +30,4 @@ Recreate the archive at any time with:
 ./scripts/create_portable_zip.sh
 ```
 
-The generated file is written to `dist/rover_ros_ws_version2.zip`.
+The generated file is written to `dist/GPS-and-Lidar-Fusion-lidar-navigation.zip`.
