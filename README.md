@@ -1,4 +1,4 @@
-# GPS and LiDAR Fusion — LiDAR Navigation
+# LiDAR Navigation
 
 Version 2 of the ROS 2 Humble rover workspace for point-to-point navigation.
 It combines wheel and IMU odometry with point-cloud data from a Livox
