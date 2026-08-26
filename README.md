@@ -5,7 +5,6 @@ It combines wheel and IMU odometry with point-cloud data from a Livox
 MID-360/MID-360S LiDAR. The workspace contains rover control, localization,
 navigation, mapping, and Livox driver packages.
 
-FAST-LIO and Isaac ROS are intentionally not included in this version.
 
 ## Documentation
 
@@ -36,10 +35,8 @@ Use **Ubuntu 22.04 (Jammy), 64-bit, with ROS 2 Humble Desktop**. Clone the
 repository and follow the complete [setup guide](SETUP_VERSION2.md):
 
 ```bash
-git clone https://github.com/BhairavRobotics/GPS-and-Lidar-Fusion.git \
-  GPS-and-Lidar-Fusion-lidar-navigation
-cd GPS-and-Lidar-Fusion-lidar-navigation
-git switch lidar-navigation
+git clone https://github.com/nileshmetakota-17/Lidar_navigation.git
+cd Lidar_navigation
 ```
 
 Install the documented dependencies, then build:
@@ -54,7 +51,7 @@ source install/setup.bash
 After setup and build, every new terminal can load the environment with:
 
 ```bash
-cd /path/to/GPS-and-Lidar-Fusion-lidar-navigation
+cd ~/Lidar_navigation
 source scripts/rover_env.sh
 ```
 
